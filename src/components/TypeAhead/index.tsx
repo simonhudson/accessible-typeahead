@@ -23,12 +23,16 @@ const TypeAhead = ({ dataSource, inputId, label, labelInfo, minQueryLength = 3 }
 	const clearResults = (): void => setResults([]);
 	const clearSelectedValue = (): void => setSelectedValue(null);
 
+	const getInputValue = (): string => inputRef?.current?.value ?? '';
+	const getInputValueLength = (): number => getInputValue().length;
+	const getResultsLength = (): number => results?.length;
+
+	const returnKeyPressed = (e): boolean => e.key === 'Enter' || e.keyCode === 13;
+
 	const queryDataSource = (): void => {
-		const inputValue: string = inputRef?.current?.value ?? '';
-		const inputValueLength: number = inputValue?.length ?? 0;
-		if (inputValueLength >= minQueryLength) {
+		if (getInputValueLength() >= minQueryLength) {
 			const queryResults: string[] = dataSource.filter((item) =>
-				item.toLowerCase().includes(inputValue?.toLowerCase())
+				item.toLowerCase().includes(getInputValue().toLowerCase())
 			);
 			setResults(queryResults);
 		} else {
@@ -46,7 +50,7 @@ const TypeAhead = ({ dataSource, inputId, label, labelInfo, minQueryLength = 3 }
 		<Wrapper>
 			<AssistiveContent
 				minQueryLength={minQueryLength}
-				queryLength={inputRef?.current?.value.length ?? 0}
+				queryLength={getInputValueLength()}
 				resultsLength={results.length}
 				selectedValue={selectedValue}
 			/>
@@ -66,12 +70,10 @@ const TypeAhead = ({ dataSource, inputId, label, labelInfo, minQueryLength = 3 }
 				type="text"
 				value={selectedValue ?? inputValue}
 			/>
-			{!!inputRef.current && inputRef.current.value.length >= minQueryLength && !!results?.length && (
+			{getInputValueLength() >= minQueryLength && !!getResultsLength() && (
 				<ResultsWrapper>
-					{(!results || !results.length) && !selectedValue && (
-						<p>Sorry, no results for {inputRef?.current?.value}.</p>
-					)}
-					{!!results?.length && (
+					{!getResultsLength() && !selectedValue && <p>Sorry, no results for {getInputValue()}.</p>}
+					{!!getResultsLength() && (
 						<ResultsList ref={resultsListRef}>
 							{results.map((item: string) => {
 								const slug: string = item.toLowerCase().replace(/\s/g, '-');
@@ -80,7 +82,7 @@ const TypeAhead = ({ dataSource, inputId, label, labelInfo, minQueryLength = 3 }
 										key={`results-list--${slug}`}
 										onClick={() => selectValueFromList(item)}
 										onKeyUp={(e) => {
-											if (e.key === 'Enter' || e.keyCode === 13) selectValueFromList(item);
+											if (returnKeyPressed(e)) selectValueFromList(item);
 										}}
 										tabIndex={0}
 									>
