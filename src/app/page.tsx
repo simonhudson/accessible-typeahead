@@ -8,7 +8,7 @@ const MIN_QUERY_LENGTH = 3;
 
 const AppWrapper = styled.div`
 	margin: 0 auto;
-	width: 75%;
+	width: 85%;
 `;
 
 const Home = () => {
