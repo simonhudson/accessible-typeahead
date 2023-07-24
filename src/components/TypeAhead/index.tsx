@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import { Wrapper, Label, LabelInfo, Input, ResultsWrapper, ResultsList, ResultsItem } from './index.styles';
+import AssistiveContent from './assistive-content';
 
 type TypeAheadProps = {
 	dataSource: string[];
@@ -36,13 +37,25 @@ const TypeAhead = ({ dataSource, inputId, label, labelInfo, minQueryLength = 3 }
 		}
 	};
 
+	const selectValueFromList = (item: string): void => {
+		setSelectedValue(item);
+		clearResults();
+	};
+
 	return (
 		<Wrapper>
+			<AssistiveContent
+				minQueryLength={minQueryLength}
+				queryLength={inputRef?.current?.value.length ?? 0}
+				resultsLength={results.length}
+				selectedValue={selectedValue}
+			/>
 			<Label htmlFor={inputId}>
 				{label}
 				{labelInfo && <LabelInfo>{labelInfo}</LabelInfo>}
 			</Label>
 			<Input
+				aria-describedby="typeahead-assistive-hint"
 				id={inputId}
 				onChange={(e) => {
 					setInputValue(e.target.value);
@@ -64,10 +77,11 @@ const TypeAhead = ({ dataSource, inputId, label, labelInfo, minQueryLength = 3 }
 								return (
 									<ResultsItem
 										key={`results-list--${slug}`}
-										onClick={() => {
-											setSelectedValue(item);
-											clearResults();
+										onClick={() => selectValueFromList(item)}
+										onKeyUp={(e) => {
+											if (e.key === 'Enter' || e.keyCode === 13) selectValueFromList(item);
 										}}
+										tabIndex={0}
 									>
 										{item}
 									</ResultsItem>

@@ -14,6 +14,7 @@ export const Label = styled.label`
 export const LabelInfo = styled.span`
 	display: block;
 	font-weight: normal;
+	margin-top: ${rem(7)};
 `;
 
 export const Input = styled.input`
