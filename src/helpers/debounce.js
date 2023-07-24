@@ -1,6 +1,6 @@
-const debounce = (func: { (): void; apply?: any }, wait?: number, immediate?: boolean) => {
+const debounce = (func, wait, immediate) => {
 	wait = wait || 250;
-	let timeout: number | null;
+	let timeout;
 	return function () {
 		const context = this;
 		const args = arguments;
