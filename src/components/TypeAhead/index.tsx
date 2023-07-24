@@ -3,6 +3,7 @@
 import React, { useRef, useState } from 'react';
 import { Wrapper, Label, LabelInfo, Input, ResultsWrapper, ResultsList, ResultsItem } from './index.styles';
 import AssistiveContent from './assistive-content';
+import returnKeyPressed from '@/helpers/returnKeyPressed';
 
 type TypeAheadProps = {
 	dataSource: string[];
@@ -26,8 +27,6 @@ const TypeAhead = ({ dataSource, inputId, label, labelInfo, minQueryLength = 3 }
 	const getInputValue = (): string => inputRef?.current?.value ?? '';
 	const getInputValueLength = (): number => getInputValue().length;
 	const getResultsLength = (): number => results?.length;
-
-	const returnKeyPressed = (e): boolean => e.key === 'Enter' || e.keyCode === 13;
 
 	const queryDataSource = (): void => {
 		if (getInputValueLength() >= minQueryLength) {
