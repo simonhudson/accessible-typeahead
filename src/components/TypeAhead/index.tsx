@@ -56,6 +56,7 @@ const TypeAhead = ({ dataSource, inputId, label, labelInfo, minQueryLength = 3 }
 			</Label>
 			<Input
 				aria-describedby="typeahead-assistive-hint"
+				autoComplete="off"
 				id={inputId}
 				onChange={(e) => {
 					setInputValue(e.target.value);
