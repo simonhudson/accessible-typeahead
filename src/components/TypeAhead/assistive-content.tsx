@@ -6,7 +6,7 @@ type AssistiveContentProps = {
 	minQueryLength: number;
 	queryLength: number;
 	resultsLength: number;
-	selectedValue: string;
+	selectedValue: string | null;
 };
 
 const VisuallyHidden = styled.div`
