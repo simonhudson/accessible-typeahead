@@ -41,6 +41,7 @@ const TypeAhead = ({ dataSource, inputId, label, labelInfo, minQueryLength = 3 }
 	};
 
 	const selectValueFromList = (item: string): void => {
+		setInputValue(item);
 		setSelectedValue(item);
 		clearResults();
 	};
@@ -67,7 +68,7 @@ const TypeAhead = ({ dataSource, inputId, label, labelInfo, minQueryLength = 3 }
 				}}
 				ref={inputRef}
 				type="text"
-				value={selectedValue ?? inputValue}
+				value={inputValue}
 			/>
 			{getInputValueLength() >= minQueryLength && !!getResultsLength() && (
 				<ResultsWrapper>

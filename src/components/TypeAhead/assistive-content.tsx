@@ -52,8 +52,8 @@ const AssistiveContent = ({ minQueryLength, queryLength, resultsLength, selected
 	return (
 		<VisuallyHidden>
 			<p id="typeahead-assistive-hint">
-				When autocomplete results are available use up and down arrows to review and enter to select. Touch
-				device users, explore by touch or with swipe gestures.
+				When autocomplete results are available use tab key to review and enter to select. Touch device users,
+				explore by touch or with swipe gestures.
 			</p>
 			<p role="status">{content}</p>
 		</VisuallyHidden>
