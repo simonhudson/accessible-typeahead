@@ -1,4 +1,4 @@
-import returnKeyPressed from './returnKeyPressed';
+import { returnKeyPressed } from './returnKeyPressed';
 
 describe('returnKeyPressed', () => {
 	it('should return false when no event object found', () => {

@@ -1,13 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import debounce from '@/helpers/debounce';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-
-type AssistiveContentProps = {
-	minQueryLength: number;
-	queryLength: number;
-	resultsLength: number;
-	selectedValue: string | null;
-};
+import { NO_RESULTS_STRING } from './constants';
+import type { AssistiveContentProps } from './assistive-content.d';
 
 const VisuallyHidden = styled.div`
 	color: #fff;
@@ -21,13 +15,20 @@ const VisuallyHidden = styled.div`
 	border: 0;
 `;
 
-const AssistiveContent = ({ minQueryLength, queryLength, resultsLength, selectedValue }: AssistiveContentProps) => {
+const AssistiveContent = ({
+	inputId,
+	minQueryLength,
+	noResultsFound,
+	queryLength,
+	resultsLength,
+	selectedValue,
+}: AssistiveContentProps) => {
 	const QUERY_TOO_SHORT: boolean = queryLength > 0 && queryLength < minQueryLength;
-	const NO_RESULTS: boolean = resultsLength === 0;
+	const NO_RESULTS: boolean = noResultsFound;
 
 	const [content, setContent] = useState<string | null>(null);
 
-	const updateStatus = debounce(() => {
+	const updateStatus = useCallback(() => {
 		let contentString: string = '';
 		if (selectedValue) {
 			contentString = `You have selected ${selectedValue}`;
@@ -35,7 +36,7 @@ const AssistiveContent = ({ minQueryLength, queryLength, resultsLength, selected
 			contentString = `Type in ${minQueryLength} or more characters for results`;
 		} else if (queryLength >= minQueryLength) {
 			if (NO_RESULTS) {
-				contentString = 'No search results';
+				contentString = NO_RESULTS_STRING;
 			} else {
 				contentString = `${resultsLength} ${resultsLength === 1 ? 'result' : 'results'} ${
 					resultsLength === 1 ? 'is' : 'are'
@@ -43,19 +44,19 @@ const AssistiveContent = ({ minQueryLength, queryLength, resultsLength, selected
 			}
 		}
 		setContent(contentString);
-	}, 500);
+	}, [NO_RESULTS, QUERY_TOO_SHORT, minQueryLength, queryLength, resultsLength, selectedValue]);
 
 	useEffect(() => {
 		updateStatus();
-	});
+	}, [queryLength, updateStatus]);
 
 	return (
 		<VisuallyHidden>
-			<p id="typeahead-assistive-hint">
+			<p id={`typeahead-assistive-hint--${inputId}`}>
 				When autocomplete results are available use tab key to review and enter to select. Touch device users,
 				explore by touch or with swipe gestures.
 			</p>
-			<p role="status">{content}</p>
+			{!!content && <p role="status">{content}</p>}
 		</VisuallyHidden>
 	);
 };

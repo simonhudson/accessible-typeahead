@@ -3,17 +3,19 @@
 import React, { useRef, useState } from 'react';
 import { Wrapper, Label, LabelInfo, Input, ResultsWrapper, ResultsList, ResultsItem } from './index.styles';
 import AssistiveContent from './assistive-content';
-import returnKeyPressed from '@/helpers/returnKeyPressed';
+import { returnKeyPressed } from './helpers/returnKeyPressed';
+import { NO_RESULTS_STRING } from './constants';
+import type { TypeAheadProps } from './index.d';
 
-type TypeAheadProps = {
-	dataSource: string[];
-	inputId: string;
-	label: string;
-	labelInfo?: string;
-	minQueryLength?: number;
-};
-
-const TypeAhead = ({ dataSource, inputId, label, labelInfo, minQueryLength = 3 }: TypeAheadProps) => {
+const TypeAhead = ({
+	dataSource,
+	inputId,
+	label,
+	labelInfo,
+	minQueryLength = 3,
+	placeholder,
+	showAllResultsOnFocus = true,
+}: TypeAheadProps) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const resultsListRef = useRef<HTMLUListElement>(null);
 
@@ -52,7 +54,9 @@ const TypeAhead = ({ dataSource, inputId, label, labelInfo, minQueryLength = 3 }
 				minQueryLength={minQueryLength}
 				queryLength={getInputValueLength()}
 				resultsLength={results.length}
+				noResultsFound={results.length === 1 && results[0] === NO_RESULTS_STRING}
 				selectedValue={selectedValue}
+				inputId={inputId}
 			/>
 			<Label htmlFor={inputId}>
 				{label}
@@ -66,6 +70,10 @@ const TypeAhead = ({ dataSource, inputId, label, labelInfo, minQueryLength = 3 }
 					setInputValue(e.target.value);
 					queryDataSource();
 				}}
+				onFocus={() => (showAllResultsOnFocus ? setResults(dataSource) : null)}
+				placeholder={`${
+					placeholder ? placeholder : `Type ${minQueryLength} or more characters to see suggestions`
+				}`}
 				ref={inputRef}
 				type="text"
 				value={inputValue}
