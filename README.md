@@ -1,5 +1,5 @@
 # Accessible Typeahead
 
-https://typeahead-simonhudson.netlify.app
+https://accessible-typeahead-simonhudson.vercel.app
 
 https://www.hellosimonhudson.com
