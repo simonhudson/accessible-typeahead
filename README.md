@@ -1,5 +1,3 @@
-# Accessible Typeahead
-
-https://typeahead-simonhudson.netlify.app
+# Auto Complete
 
 https://www.hellosimonhudson.com

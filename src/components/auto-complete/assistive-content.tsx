@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import debounce from '@/helpers/debounce';
 import styled from 'styled-components';
-
-type AssistiveContentProps = {
-	minQueryLength: number;
-	queryLength: number;
-	resultsLength: number;
-	selectedValue: string | null;
-};
+import type { AssistiveContentProps } from '@/types/assistive-content';
 
 const VisuallyHidden = styled.div`
 	color: #fff;
@@ -51,7 +45,7 @@ const AssistiveContent = ({ minQueryLength, queryLength, resultsLength, selected
 
 	return (
 		<VisuallyHidden>
-			<p id="typeahead-assistive-hint">
+			<p id="auto-complete-assistive-hint">
 				When autocomplete results are available use tab key to review and enter to select. Touch device users,
 				explore by touch or with swipe gestures.
 			</p>

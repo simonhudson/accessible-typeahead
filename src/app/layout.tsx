@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-	title: 'Accessible Typeahead by Simon Hudson',
-	description: 'Accessible Typeahead by Simon Hudson',
+	title: 'Auto Complete by Simon Hudson',
+	description: 'Auto Complete by Simon Hudson',
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {

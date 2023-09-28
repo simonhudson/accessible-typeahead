@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import TypeAhead from '@/components/TypeAhead';
+import AutoComplete from '@/components/auto-complete';
 import data from './data';
 import styled from 'styled-components';
 import { rem } from 'polished';
@@ -33,23 +33,28 @@ const Footer = styled.footer`
 	border-top: 1px solid #eee;
 	margin: ${rem(40)} 0 0;
 	padding: ${rem(10)} 0;
+
+	span {
+		display: block;
+		margin-bottom: 10px;
+	}
 `;
 
 const now = new Date();
-const REPO_URL = 'https://github.com/simonhudson/accessible-typeahead';
+const REPO_URL = 'https://github.com/simonhudson/auto-complete';
 
 const Home = () => {
 	return (
 		<AppWrapper>
 			<Header>
-				<h1>Accessible Typeahead</h1>
+				<h1>Auto Complete</h1>
 				<p>
 					Form input which provides filtered suggestions based on input. Support added for screen readers
 					which announces instructions for use, how many results are available, and which result has been
 					selected.
 				</p>
 			</Header>
-			<TypeAhead
+			<AutoComplete
 				dataSource={data}
 				inputId="input-id"
 				label="Search for film titles from the AFI's Top 100 list"
@@ -58,7 +63,10 @@ const Home = () => {
 			/>
 			<Footer>
 				<p>
-					&copy; {now.getFullYear()} Simon Hudson | <Link href={REPO_URL}>{REPO_URL}</Link>
+					<span>
+						<Link href={REPO_URL}>{REPO_URL}</Link>
+					</span>
+					<span>&copy; {now.getFullYear()} Simon Hudson</span>
 				</p>
 			</Footer>
 		</AppWrapper>
